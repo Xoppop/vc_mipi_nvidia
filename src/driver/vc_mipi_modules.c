@@ -31,11 +31,11 @@
 
 int vc_mod_is_color_sensor(struct vc_desc *desc)
 {
-        if (desc->sen_type) {
-                __u32 len = strnlen(desc->sen_type, 16);
-                if (len > 0 && len < 17) {
-                        return *(desc->sen_type + len - 1) == 'C';
-                }
+        // NOTE: sen_type is an array (never NULL). Checking its address breaks the
+        //       build with GCC 13 (-Werror=address), which is used since L4T 39.x.
+        __u32 len = strnlen(desc->sen_type, 16);
+        if (len > 0 && len < 17) {
+                return *(desc->sen_type + len - 1) == 'C';
         }
         return 0;
 }

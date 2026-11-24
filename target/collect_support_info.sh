@@ -831,7 +831,7 @@ cat /etc/nv_tegra_release >> "${FILE}" 2>&1 || true
 
 if [[ "${L4T_MAJOR}" -ge 36 ]]; then
     echo "" >> "${FILE}"
-    echo "[INFO] JetPack 6 detected (L4T R${L4T_MAJOR}.x)." >> "${FILE}"
+    echo "[INFO] JetPack 6 or newer detected (L4T R${L4T_MAJOR}.x, R39.x = JetPack 7)." >> "${FILE}"
     echo "       v4l2-ctl --list-devices may report incorrect device nodes." >> "${FILE}"
     echo "       Using sysfs-based enumeration below as workaround." >> "${FILE}"
 fi

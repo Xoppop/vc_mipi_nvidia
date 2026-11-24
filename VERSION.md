@@ -1,5 +1,15 @@
 # Version History
 
+## Unreleased (Jetson Linux 39.2.2)
+* New Features
+  * Added support for board support package
+    * NVIDIA Jetson Linux 39.2.2 / JetPack 7.2.2 *(only NVIDIA Jetson Orin NX, Orin Nano and Orin AGX)*
+* Improvement
+  * Driver compatible with Linux kernel 6.8 (i2c probe/remove signatures, media_pad_remote_pad_first)
+  * Kernel patches ported to kernel-noble (6.8.12) and nvidia-oot of 39.2.2 (patch/kernel_Xavier_39.2.2)
+    * vb2_queue_is_busy() is public in Linux 6.8, so videobuf2 does not need to be patched anymore
+  * Toolchain changed to NVIDIA x-tools (GCC 13.2, aarch64-none-linux-gnu)
+
 ## v0.20.0 (L4T 36.5.0, L4T 36.4.4, L4T 35.6.0, Support IMX540, Improvement)
 * New Features
   * Added support for board support package

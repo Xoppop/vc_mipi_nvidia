@@ -1,0 +1,21 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: "/setup.sh" <support@vision-components.com>
+Date: Tue, 24 Nov 2026 12:55:44 +0200
+Subject: [PATCH] Support for IO/Expander added.
+
+---
+ kernel/kernel-noble/arch/arm64/configs/defconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/kernel/kernel-noble/arch/arm64/configs/defconfig b/kernel/kernel-noble/arch/arm64/configs/defconfig
+index 0184a46..5d07185 100644
+--- a/kernel/kernel-noble/arch/arm64/configs/defconfig
++++ b/kernel/kernel-noble/arch/arm64/configs/defconfig
+@@ -785,6 +785,7 @@ CONFIG_GPIO_PCA953X_IRQ=y
+ CONFIG_GPIO_BD9571MWV=m
+ CONFIG_GPIO_MAX77620=y
+ CONFIG_GPIO_SL28CPLD=m
++CONFIG_GPIO_PCF857X=m
+ CONFIG_GPIO_AGGREGATOR=m
+ CONFIG_POWER_RESET_MSM=y
+ CONFIG_POWER_RESET_QCOM_PON=m

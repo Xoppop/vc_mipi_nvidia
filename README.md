@@ -38,6 +38,7 @@
   * [NVIDIA L4T 36.4.3](https://developer.nvidia.com/embedded/jetson-linux-r3643) *(only NVIDIA Jetson Orin Nano and Orin NX)*
   * [NVIDIA L4T 36.4.4](https://developer.nvidia.com/embedded/jetson-linux-r3644) *(only NVIDIA Jetson Orin Nano, Orin NX and Orin AGX)*
   * [NVIDIA L4T 36.5.0](https://developer.nvidia.com/embedded/jetson-linux-r365) *(only NVIDIA Jetson Orin Nano, Orin NX and Orin AGX)*
+  * [NVIDIA Jetson Linux 39.2.2](https://developer.nvidia.com/embedded/jetpack/downloads/archive-7.2.2) *(JetPack 7.2.2, only NVIDIA Jetson Orin Nano, Orin NX and Orin AGX)*
 * Supported [VC MIPI Camera Modules](https://www.vision-components.com/fileadmin/external/documentation/hardware/VC_MIPI_Camera_Module/index.html) 
   * IMX178, IMX183, IMX226
   * IMX250, IMX252, IMX264, IMX265, IMX273, IMX392
@@ -70,6 +71,7 @@
 ### Host PC
 
 * Recommended OS is Ubuntu 18.04 LTS or Ubuntu 20.04 LTS
+  * For NVIDIA Jetson Linux 39.2.2 (JetPack 7) use Ubuntu 22.04 LTS or Ubuntu 20.04 LTS (requirement of NVIDIA)
 * You need git to clone this repository
 * All other packages are installed by the scripts contained in this repository
 

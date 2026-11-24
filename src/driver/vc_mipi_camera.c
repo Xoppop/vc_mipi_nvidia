@@ -11,6 +11,14 @@
 #define VERSION "0.20.0"
 // #define VC_CTRL_VALUE
 
+// Kernel API compatibility (L4T 39.x ships Linux 6.8)
+// media_entity_remote_pad() was renamed to media_pad_remote_pad_first() in Linux 6.0
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6,0,0)
+#define vc_media_remote_pad(pad) media_pad_remote_pad_first(pad)
+#else
+#define vc_media_remote_pad(pad) media_entity_remote_pad(pad)
+#endif
+
 //prototypes
 struct tegra_channel *get_tegra_channel(struct tegracam_device *tc_dev);
 void vc_update_image_size_from_mode(struct tegracam_device *tc_dev,  __u32 *left, __u32 *top, __u32 *width, __u32 *height);
@@ -63,7 +71,7 @@ struct tegra_channel *get_tegra_channel(struct tegracam_device *tc_dev)
                 return NULL;
         }
 
-        pad_csi = media_entity_remote_pad(&sd->entity.pads[0]);
+        pad_csi = vc_media_remote_pad(&sd->entity.pads[0]);
         if (NULL == pad_csi) {
                 vc_err(dev, "%s(): pad_csi is NULL!\n", __FUNCTION__);
                 return NULL;
@@ -75,7 +83,7 @@ struct tegra_channel *get_tegra_channel(struct tegracam_device *tc_dev)
                 return NULL;
         }
 
-        pad_vi = media_entity_remote_pad(&sd_csi->entity.pads[1]);
+        pad_vi = vc_media_remote_pad(&sd_csi->entity.pads[1]);
         if (NULL == pad_vi) {
                 vc_err(dev, "%s(): pad_vi is NULL!\n", __FUNCTION__);
                 return NULL;
@@ -908,7 +916,12 @@ static struct tegracam_ctrl_ops vc_ctrl_ops = {
 #endif
 };
 
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6,3,0)
+// Since Linux 6.3 the i2c probe callback has no i2c_device_id argument
+static int vc_probe(struct i2c_client *client)
+#else
 static int vc_probe(struct i2c_client *client, const struct i2c_device_id *id)
+#endif
 {
         // --------------------------------------------------------------------
         // NOTE: Don't modify this lines of code. It will cause a kernel crash.
@@ -994,14 +1007,21 @@ unregister_subdev:
         return 0;
 }
 
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6,1,0)
+// Since Linux 6.1 the i2c remove callback returns void
+static void vc_remove(struct i2c_client *client)
+#else
 static int vc_remove(struct i2c_client *client)
+#endif
 {
         struct camera_common_data *s_data = to_camera_common_data(&client->dev);
         struct tegracam_device *tc_dev = s_data->tegracam_ctrl_hdl->tc_dev;
 
         tegracam_v4l2subdev_unregister(tc_dev);
         tegracam_device_unregister(tc_dev);
+#if LINUX_VERSION_CODE < KERNEL_VERSION(6,1,0)
         return 0;
+#endif
 }
 
 static const struct i2c_device_id vc_id[] = {
