@@ -9,6 +9,7 @@ usage() {
         echo "-a, --all                 Flash kernel image, modules and device tree"
         echo "-d, --dt                  Flash device tree"
         echo "-h, --help                Show this help text"
+        echo "-i, --isp                 Copy ISP override files (src/isp/<board>) to the running target"
         echo "-k, --kernel              Flash kernel image"
         echo "-m, --module              Flash kernel module"
 }
@@ -136,6 +137,25 @@ flash_device_tree() {
         esac
 }
 
+flash_isp_files() {
+        ISP_SRC_DIR=$ISP_DIR/$DTSI_KEY
+        if ! ls $ISP_SRC_DIR/*.isp > /dev/null 2>&1; then
+                echo "No ISP override files found in $ISP_SRC_DIR!"
+                exit 1
+        fi
+
+        echo "Flashing ISP override files only ..."
+        TMP_DIR=/tmp
+        for isp_file in $ISP_SRC_DIR/*.isp; do
+                isp_name=$(basename $isp_file)
+                scp $isp_file $TARGET_USER@$TARGET_IP:$TMP_DIR
+                $TARGET_SHELL "echo $TARGET_PW | sudo -S install -D -o root -g root -m 664 $TMP_DIR/$isp_name $ISP_TARGET_DIR/$isp_name && rm $TMP_DIR/$isp_name"
+        done
+        # The ISP cache is rebuilt by nvargus-daemon.
+        $TARGET_SHELL "echo $TARGET_PW | sudo -S sh -c 'rm -f $ISP_TARGET_DIR/nvcam_cache_*.bin $ISP_TARGET_DIR/serial_no_*.bin; systemctl restart nvargus-daemon'"
+        $TARGET_SHELL ls -l $ISP_TARGET_DIR/*.isp
+}
+
 reboot_target() {
         echo "Rebooting target ..."
         $TARGET_SHELL "echo $TARGET_PW | sudo -S /sbin/reboot"
@@ -159,6 +179,10 @@ while [ $# != 0 ] ; do
         -h|--help)
                 usage
                 exit 0
+                ;;
+        -i|--isp)
+                configure
+                flash_isp_files
                 ;;
         -k|--kernel)
                 configure

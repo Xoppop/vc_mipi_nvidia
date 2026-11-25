@@ -6,8 +6,8 @@ usage() {
         echo "Build kernel image, modules and device tree."
         echo ""
         echo "Supported options:"
-        echo "-a, --all                 Build kernel image, modules and device tree"
-        echo "-d, --dt                  Build device tree"
+        echo "-a, --all                 Build kernel image, modules and device tree (installs ISP files)"
+        echo "-d, --dt                  Build device tree (installs ISP files)"
         echo "-h, --help                Show this help text"
         echo "-k, --kernel              Build kernel image"
         echo "-m, --modules             Build kernel modules"
@@ -67,6 +67,28 @@ build_device_tree() {
         L4T_build_device_tree
 }
 
+# Installs the ISP override files of the carrier board (src/isp/<board>/<badge>.isp) into the
+# root file system. nvargus-daemon loads ${ISP_TARGET_DIR}/<badge>.isp for every camera module,
+# where <badge> is the badge property of the module in the device tree.
+install_isp_files() {
+        ISP_SRC_DIR=$ISP_DIR/$DTSI_KEY
+        if ! ls $ISP_SRC_DIR/*.isp > /dev/null 2>&1; then
+                return 0
+        fi
+
+        ISP_DEST_DIR=$BSP_DIR/Linux_for_Tegra/rootfs${ISP_TARGET_DIR}
+        echo "Installing ISP override files into $ISP_DEST_DIR ..."
+        for isp_file in $ISP_SRC_DIR/*.isp; do
+                isp_name=$(basename $isp_file)
+                if ! grep -q "badge *= *\"${isp_name%.isp}\"" $DT_CAM_FILE; then
+                        echo "WARNING: There is no camera module with badge \"${isp_name%.isp}\" in $DT_CAM_FILE!"
+                        echo "         $isp_name will not be used by the camera software."
+                fi
+                sudo install -D -o root -g root -m 664 $isp_file $ISP_DEST_DIR/$isp_name
+                echo "  $isp_name"
+        done
+}
+
 set -e
 
 while [ $# != 0 ] ; do
@@ -79,8 +101,9 @@ while [ $# != 0 ] ; do
                 patch_kernel
                 configure_kernel
                 build_kernel
-                build_modules	
+                build_modules
                 build_device_tree
+                install_isp_files
                 exit 0
                 ;;
         -d|--dt)
@@ -88,6 +111,7 @@ while [ $# != 0 ] ; do
                 patch_kernel
                 configure_kernel
                 build_device_tree
+                install_isp_files
                 exit 0
                 ;;
         -h|--help)

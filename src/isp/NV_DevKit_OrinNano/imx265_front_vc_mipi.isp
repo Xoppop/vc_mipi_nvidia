@@ -1,0 +1,41 @@
+#* =============================================================
+#* ISP Configuration Override File
+#* Model: Vision Components MIPI IMX265C
+#* Part#:
+#* Sensor: Sony IMX265
+#* Size:
+#* Version: 1.0
+#* FileName & Location: ~/camera_overrides.isp
+#* Updated: Mon Nov 03 12:00:00 2025
+#* =============================================================
+
+# Optical Black
+opticalBlack.float.manualBiasR  = 0.248;
+opticalBlack.float.manualBiasGR = 0.248;
+opticalBlack.float.manualBiasGB = 0.248;
+opticalBlack.float.manualBiasB  = 0.248;
+
+# CCM
+#colorCorrection.srgbMatrix[0]   = {  1.324,-0.228, 0.006};
+#colorCorrection.srgbMatrix[1]   = { -0.261, 1.644,-0.535};
+#colorCorrection.srgbMatrix[2]   = { -0.096,-0.029, 2.455};
+#
+# Red Out   (Less green influence to stop Red turning Orange)
+colorCorrection.srgbMatrix[0]   = {  1.450, -0.400, -0.050 }; 
+# Green Out (Less red influence to stop Green turning Yellow)
+colorCorrection.srgbMatrix[1]   = { -0.350,  1.550, -0.200 }; 
+# Blue Out  (Toned down the extreme 2.455 diagonal to restore balance)
+colorCorrection.srgbMatrix[2]   = { -0.150, -0.250,  1.400 };
+
+# Auto Exposure Settings
+ae.MeanAlg.MinTailMass          = 0.005;
+ae.MeanAlg.CriticalMass         = 0.050;
+ae.MeanAlg.ConvergeSpeed        = 0.1;
+ae.MaxFstopDeltaPos             = 0.7;
+ae.MaxFstopDeltaNeg             = 0.7;
+
+# AWB
+#awb.GrayLineSlope               = -1.63;
+#awb.GrayLineIntercept           = 2.91;
+#awb.GrayLineSlope               = -1.33;
+#awb.GrayLineIntercept           = 2.71;

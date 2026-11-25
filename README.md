@@ -625,3 +625,24 @@ The tar.gz file can be attached to the support ticket.
 ### ISP Tuning files
 
 We also have a variety of ISP tuning files for color sensors. Please contact the Vision Components team support@vision-components.com
+
+The camera software (nvargus-daemon) loads a separate ISP override file for every camera module.
+The file is selected by the `badge` property of the module in the device tree:
+<pre>
+/var/nvidia/nvcam/settings/&lt;badge&gt;.isp
+</pre>
+Put the ISP files of your cameras into `src/isp/<carrier board>/` and name them after the badges
+of the camera modules in your device tree file (`src/devicetree/<carrier board>/`), e.g.
+
+| Device tree (`tegra-camera-platform/modules`) | ISP file |
+| --- | --- |
+| `badge = "imx265_front_vc_mipi";` | `src/isp/NV_DevKit_OrinNano/imx265_front_vc_mipi.isp` |
+| `badge = "imx296_bottom_vc_mipi";` | `src/isp/NV_DevKit_OrinNano/imx296_bottom_vc_mipi.isp` |
+
+`./build.sh --all` and `./build.sh --dt` install these files into the root file system, so they are flashed with `./flash.sh --all`.
+On a running target the files can be updated with `./flash.sh --isp`.
+The badge of each camera module can be checked on the target with:
+<pre>
+for b in /proc/device-tree/tegra-camera-platform/modules/module*/badge; do echo "$b: $(tr -d '\0' &lt; $b)"; done
+</pre>
+If the camera modules are swapped between the connectors, the badges in the device tree (or the ISP file names) have to be swapped as well.

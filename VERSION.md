@@ -4,6 +4,7 @@
 * New Features
   * Added support for board support package
     * NVIDIA Jetson Linux 39.2.2 / JetPack 7.2.2 *(only NVIDIA Jetson Orin NX, Orin Nano and Orin AGX)*
+  * Per camera ISP override files (`src/isp/<board>/<badge>.isp`), installed by build.sh, updated on the target by flash.sh --isp
 * Improvement
   * Driver compatible with Linux kernel 6.8 (i2c probe/remove signatures, media_pad_remote_pad_first)
   * Kernel patches ported to kernel-noble (6.8.12) and nvidia-oot of 39.2.2 (patch/kernel_Xavier_39.2.2)
