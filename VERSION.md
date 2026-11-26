@@ -10,6 +10,8 @@
   * Kernel patches ported to kernel-noble (6.8.12) and nvidia-oot of 39.2.2 (patch/kernel_Xavier_39.2.2)
     * vb2_queue_is_busy() is public in Linux 6.8, so videobuf2 does not need to be patched anymore
   * Toolchain changed to NVIDIA x-tools (GCC 13.2, aarch64-none-linux-gnu)
+  * IMX265: default sensor black level lowered from 255 to 60 (10 bit), like IMX296. The high black level wasted 1/4 of the range and made the NVIDIA ISP render clipped highlights magenta
+  * ISP files NV_DevKit_OrinNano: IMX265 black level, normalized color matrix and AWB calibration, IMX296 AWB range widened to 2900 .. 6500 K
 
 ## v0.20.0 (L4T 36.5.0, L4T 36.4.4, L4T 35.6.0, Support IMX540, Improvement)
 * New Features

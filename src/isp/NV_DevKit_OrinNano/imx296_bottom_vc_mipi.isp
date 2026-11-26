@@ -42,8 +42,8 @@ lensShading.falloff.Video[5] = {32.0, 30.0};
 
 # AWB 
 awb.v4.NumGrayLineSoftClampPoints	 = 2; 
-awb.v4.GrayLineSoftClamp[0]	 = {0.7345,  0.7345}; 
-awb.v4.GrayLineSoftClamp[1]	 = {1.0031,  1.0031}; 
+awb.v4.GrayLineSoftClamp[0]	 = {0.6200,  0.6200}; 
+awb.v4.GrayLineSoftClamp[1]	 = {1.2000,  1.2000}; 
 awb.v4.GrayLineSoftClamp[2]	 = {0.0000,  0.0000}; 
 awb.v4.GrayLineSoftClamp[3]	 = {0.0000,  0.0000}; 
 awb.v4.GrayLineSoftClamp[4]	 = {0.0000,  0.0000}; 
@@ -61,8 +61,8 @@ awb.v4.GrayLineSoftClamp[15]	 = {0.0000,  0.0000};
 awb.v4.GrayLineSoftClampSlopeBeforeFirstPoint	 = 0.0000; 
 awb.v4.GrayLineSoftClampSlopeAfterLastPoint	 = 0.0000; 
 awb.v4.GrayLineThickness  	 = 0.2859; 
-awb.v4.HighU              	 = 1.0031; 
-awb.v4.LowU               	 = 0.7345;   
+awb.v4.HighU              	 = 1.2000; 
+awb.v4.LowU               	 = 0.6200;   
 
 #Lens shading falloff factor
 lensShading.falloff_factor = 20;
