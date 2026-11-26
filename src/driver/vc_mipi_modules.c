@@ -306,8 +306,8 @@ static void vc_init_ctrl_imx265(struct vc_ctrl *ctrl, struct vc_desc* desc)
         FRAME(0, 0, 2048, 1536)
         //all read out         binning  hmax  vmax      vmax   vmax  blkl  blkl  retrigger
         //                      mode           min       max    def   max   def
-        MODE( 0, 2, FORMAT_RAW08, 0,     846,   10,  0xfffff,  1587,  255,  255,   1580040)
-        MODE( 1, 2, FORMAT_RAW10, 0,     846,   10,  0xfffff,  1587, 1023, 1023,   1580040)
+        MODE( 0, 2, FORMAT_RAW08, 0,     846,   10,  0xfffff,  1587,  255,   60,   1580040)  // initial black level: the driver starts with the relative value of this (default format) row
+        MODE( 1, 2, FORMAT_RAW10, 0,     846,   10,  0xfffff,  1587, 1023,  240,   1580040)  // black level 240 (= 60 in 10 bit output)
         MODE( 2, 2, FORMAT_RAW12, 0,     846,   10,  0xfffff,  1587, 4095, 4095,   1580040)
 
         ctrl->flags                    |= FLAG_RESET_TRIGMODE_ALWAYS;
